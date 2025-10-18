@@ -16,12 +16,7 @@ async function fetchCurrencies(){
  const response = await fetch ("https://api.exchangerate-api.com/v4/latest/usd")
  const data = await response.json();
 
- console.log(data);
-
  const currencyOptions = Object.keys(data.rates);
-
-    console.log(currencyOptions);
-
 
  currencyOptions.forEach(currency =>{
     const option1 =document.createElement("option")
@@ -54,7 +49,13 @@ async function convertedCurrency(e){
     const data = await response.json();
 
     const rate = data.rates[toCurrencyValue];
-    const convertedAmount = (amount * rate).toFixed(2)
+    const convertedAmountRaw = (amount * rate);
+
+    
+    const convertedAmount = convertedAmountRaw.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+      });
 
     result.textContent = `${amount} ${fromCurrencyValue} = ${convertedAmount} ${toCurrencyValue}`;
 
